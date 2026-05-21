@@ -1,44 +1,93 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { Github } from "lucide-react";
 
-interface Repo {
-  id: number;
-  name: string;
-  description: string;
-  html_url: string;
-  stargazers_count: number;
-  language: string;
-}
+const projects = [
+
+  {
+    title: "Robo-Race Bot",
+
+    description:
+      "Designed and developed a high-speed autonomous racing robot optimized for precision maneuvering, sensor-driven navigation, and stable motion control under competitive racing conditions.",
+
+    tech: [
+      "Robotics",
+      "Embedded Systems",
+      "Control Systems",
+      "Sensors",
+    ],
+
+    github: "https://github.com/IMORTAL07",
+  },
+
+  {
+    title: "Robo Soccer Bot",
+
+    description:
+      "Engineered a robotic soccer platform focused on real-time movement control, ball tracking, and coordinated gameplay strategies within dynamic competitive environments.",
+
+    tech: [
+      "Robotics",
+      "Motion Control",
+      "Embedded Systems",
+      "Automation",
+    ],
+
+    github: "https://github.com/IMORTAL07",
+  },
+
+  {
+    title: "Robo Sumo Bot",
+
+    description:
+      "Built a high-torque autonomous sumo robot designed for aggressive pushing power, traction optimization, and rapid edge detection in competitive robotic combat.",
+
+    tech: [
+      "Robotics",
+      "Motor Control",
+      "Sensors",
+      "Mechanical Design",
+    ],
+
+    github: "https://github.com/IMORTAL07",
+  },
+
+  {
+    title: "Axiom Game Engine",
+
+    description:
+      "Developing a modular custom game engine focused on rendering systems, physics integration, scalable architecture, and performance-oriented real-time workflows.",
+
+    tech: [
+      "C++",
+      "Game Engine",
+      "Rendering",
+      "Architecture",
+    ],
+
+    github: "https://github.com/IMORTAL07",
+  },
+
+  {
+    title: "Driftfall Dungeon Crawler",
+
+    description:
+      "Developing a roguelike dungeon crawler featuring procedural generation, combat systems, enemy AI, inventory mechanics, and immersive exploration gameplay.",
+
+    tech: [
+      "Game Development",
+      "AI",
+      "Procedural Generation",
+      "Systems Design",
+    ],
+
+    github: "https://github.com/IMORTAL07",
+  },
+
+];
 
 export default function Projects() {
-
-  const [repos, setRepos] = useState<Repo[]>([]);
-
-  useEffect(() => {
-
-    async function fetchRepos() {
-
-      const response = await fetch(
-        "https://api.github.com/users/IMORTAL07/repos"
-      );
-
-      const data = await response.json();
-
-      const filtered = data
-        .sort(
-          (a: Repo, b: Repo) =>
-            b.stargazers_count - a.stargazers_count
-        )
-        .slice(0, 6);
-
-      setRepos(filtered);
-    }
-
-    fetchRepos();
-
-  }, []);
 
   return (
     <section
@@ -46,7 +95,7 @@ export default function Projects() {
       className="py-32 px-6 border-t border-white/5"
     >
 
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto">
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -61,19 +110,17 @@ export default function Projects() {
           </p>
 
           <h2 className="text-4xl md:text-5xl font-bold">
-            Featured Work
+            Featured Engineering Work
           </h2>
 
         </motion.div>
 
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
 
-          {repos.map((repo, index) => (
+          {projects.map((project, index) => (
 
-            <motion.a
-              key={repo.id}
-              href={repo.html_url}
-              target="_blank"
+            <motion.div
+              key={project.title}
 
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -87,54 +134,95 @@ export default function Projects() {
 
               className="
               group
-              bg-white/[0.03]
-              border border-white/10
+              relative
+              overflow-hidden
               rounded-2xl
-              p-7
+              border border-white/10
+              bg-white/[0.03]
+              p-8
               hover:border-red-500/30
               hover:bg-white/[0.05]
               transition duration-300
               "
             >
 
-              <div className="flex items-center justify-between mb-6">
+              {/* Glow Effect */}
+              <div
+                className="
+                absolute
+                inset-0
+                opacity-0
+                group-hover:opacity-100
+                transition
+                duration-500
+                bg-[radial-gradient(circle_at_top,rgba(255,0,0,0.12),transparent_60%)]
+                "
+              />
 
-                <h3 className="text-xl font-semibold group-hover:text-red-400 transition">
-                  {repo.name}
-                </h3>
+              <div className="relative z-10">
 
-                <span className="text-sm text-zinc-500">
-                  ★ {repo.stargazers_count}
-                </span>
-
-              </div>
-
-              <p className="text-zinc-400 leading-relaxed min-h-[80px]">
-                {repo.description || "No description available."}
-              </p>
-
-              <div className="mt-8 flex items-center justify-between">
-
-                <span
+                <h3
                   className="
-                  text-sm
-                  px-3 py-1
-                  rounded-full
-                  bg-white/5
-                  border border-white/10
-                  text-zinc-300
+                  text-2xl
+                  font-semibold
+                  mb-6
+                  group-hover:text-red-400
+                  transition
                   "
                 >
-                  {repo.language || "Code"}
-                </span>
+                  {project.title}
+                </h3>
 
-                <span className="text-red-400 text-sm">
-                  View →
-                </span>
+                <p className="text-zinc-400 leading-relaxed mb-8">
+                  {project.description}
+                </p>
+
+                <div className="flex flex-wrap gap-3 mb-8">
+
+                  {project.tech.map((tech) => (
+
+                    <span
+                      key={tech}
+
+                      className="
+                      px-3 py-1
+                      rounded-full
+                      text-sm
+                      bg-white/5
+                      border border-white/10
+                      text-zinc-300
+                      "
+                    >
+                      {tech}
+                    </span>
+
+                  ))}
+
+                </div>
+
+                <a
+                  href={project.github}
+                  target="_blank"
+
+                  className="
+                  inline-flex
+                  items-center
+                  gap-2
+                  text-red-400
+                  hover:text-red-300
+                  transition
+                  "
+                >
+
+                  <Github size={18} />
+
+                  GitHub
+
+                </a>
 
               </div>
 
-            </motion.a>
+            </motion.div>
 
           ))}
 
